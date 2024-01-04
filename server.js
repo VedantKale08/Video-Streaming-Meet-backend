@@ -12,7 +12,7 @@ const io = new Server(httpServer, {
 });
 
 io.on("connection", (socket) => {
-    
+    console.log("Connection established ",socket.id);
 });
 
-httpServer.listen(5000);
+httpServer.listen(5000,()=>console.log("Server listening on port 5000"));
