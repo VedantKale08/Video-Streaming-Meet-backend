@@ -20,6 +20,21 @@ io.on("connection", (socket) => {
         socket.broadcast.to(roomId).emit("user-connected",id)
       });
 
+      socket.on("user-toggle-audio",(userId,roomId) => {
+        socket.join(roomId)
+        socket.broadcast.to(roomId).emit("user-toggle-audio",userId)
+      });
+
+      socket.on("user-toggle-video",(userId,roomId) => {
+        socket.join(roomId)
+        socket.broadcast.to(roomId).emit("user-toggle-video",userId)
+      });
+
+      socket.on("user-leave", (userId, roomId) => {
+        socket.join(roomId);
+        socket.broadcast.to(roomId).emit("user-leave", userId);
+      });
+
 });
 
 httpServer.listen(5000,()=>console.log("Server listening on port 5000"));
