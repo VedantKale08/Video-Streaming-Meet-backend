@@ -14,10 +14,10 @@ const io = new Server(httpServer, {
 io.on("connection", (socket) => {
     console.log("Connection established ",socket.id);
 
-      socket.on("join-room", (roomId, id) => {
+      socket.on("join-room", (roomId, id, name) => {
         console.log(`A new user ${id} has joined the room ${roomId}`);
-        socket.join(roomId)
-        socket.broadcast.to(roomId).emit("user-connected",id)
+        socket.join(roomId);
+        socket.broadcast.to(roomId).emit("user-connected", id, name);
       });
 
       socket.on("user-toggle-audio",(userId,roomId) => {
