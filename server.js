@@ -12,29 +12,36 @@ const io = new Server(httpServer, {
 });
 
 io.on("connection", (socket) => {
-    console.log("Connection established ",socket.id);
+  console.log("Connection established ", socket.id);
 
-      socket.on("join-room", (roomId, id, name) => {
-        console.log(`A new user ${id} has joined the room ${roomId}`);
-        socket.join(roomId);
-        socket.broadcast.to(roomId).emit("user-connected", id, name);
-      });
+  socket.on("join-room", (roomId, id, name) => {
+    console.log(`A new user ${id} has joined the room ${roomId}`);
+    socket.join(roomId);
+    socket.broadcast.to(roomId).emit("user-connected", id, name);
+  });
 
-      socket.on("user-toggle-audio",(userId,roomId) => {
-        socket.join(roomId)
-        socket.broadcast.to(roomId).emit("user-toggle-audio",userId)
-      });
+  socket.on("user-toggle-audio", (userId, roomId) => {
+    socket.join(roomId);
+    socket.broadcast.to(roomId).emit("user-toggle-audio", userId);
+  });
 
-      socket.on("user-toggle-video",(userId,roomId) => {
-        socket.join(roomId)
-        socket.broadcast.to(roomId).emit("user-toggle-video",userId)
-      });
+  socket.on("user-toggle-video", (userId, roomId) => {
+    socket.join(roomId);
+    socket.broadcast.to(roomId).emit("user-toggle-video", userId);
+  });
 
-      socket.on("user-leave", (userId, roomId) => {
-        socket.join(roomId);
-        socket.broadcast.to(roomId).emit("user-leave", userId);
-      });
+  socket.on("user-leave", (userId, roomId) => {
+    socket.join(roomId);
+    socket.broadcast.to(roomId).emit("user-leave", userId);
+  });
 
+  socket.on("user-toggle-screen-share", (userId, roomId, stream) => {
+    console.log(stream);
+    socket.join(roomId);
+    socket.broadcast
+      .to(roomId)
+      .emit("user-toggle-screen-share", userId, stream);
+  });
 });
 
-httpServer.listen(5000,()=>console.log("Server listening on port 5000"));
+httpServer.listen(5000, () => console.log("Server listening on port 5000"));
