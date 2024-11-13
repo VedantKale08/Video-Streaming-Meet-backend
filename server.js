@@ -42,6 +42,10 @@ io.on("connection", (socket) => {
       .to(roomId)
       .emit("user-toggle-screen-share", userId, stream);
   });
+
+  socket.on("sendMessage", (messageData) => {
+    socket.broadcast.emit('receiveMessage', messageData);
+  });
 });
 
 httpServer.listen(5000, () => console.log("Server listening on port 5000"));
